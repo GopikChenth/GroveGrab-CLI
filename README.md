@@ -112,11 +112,13 @@ This will guide you through getting free API credentials from Spotify.
    - You'll see your **Client ID** on the app page - copy it
    - Click **"Show Client Secret"** - copy it too
    - ⚠️ Keep these private!
-6. **Configure Redirect URI (IMPORTANT):**
+6. **Configure Redirect URIs (IMPORTANT):**
    - Click **"Edit Settings"** button
    - Scroll to **"Redirect URIs"**
    - Enter: `http://localhost:8888/callback`
    - Click **"Add"**
+   - **Also add:** `http://127.0.0.1:8888/callback`
+   - Click **"Add"** again
    - Scroll down and click **"Save"**
 7. **Configure GroveGrab:**
    ```bash

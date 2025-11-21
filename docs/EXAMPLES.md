@@ -21,7 +21,7 @@ Comprehensive examples for all features and use cases.
 
 ```bash
 # Install GroveGrab CLI
-pip install grovegrab
+pip install GroveGrabCLI
 
 # Run setup wizard
 grovegrab auth

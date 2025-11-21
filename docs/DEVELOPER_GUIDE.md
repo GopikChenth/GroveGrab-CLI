@@ -85,6 +85,9 @@ pip install -e .
 # Development dependencies
 pip install -e ".[dev]"
 
+# Note: Published package name is GroveGrabCLI
+# pip install GroveGrabCLI
+
 # Or manually
 pip install pytest black flake8 mypy
 ```
@@ -742,7 +745,7 @@ python setup.py sdist bdist_wheel
 twine upload --repository testpypi dist/*
 
 # Test install
-pip install --index-url https://test.pypi.org/simple/ grovegrab
+pip install --index-url https://test.pypi.org/simple/ GroveGrabCLI
 ```
 
 **Publish to PyPI:**
@@ -751,7 +754,7 @@ pip install --index-url https://test.pypi.org/simple/ grovegrab
 twine upload dist/*
 
 # Verify
-pip install grovegrab
+pip install GroveGrabCLI
 ```
 
 ---

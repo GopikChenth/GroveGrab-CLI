@@ -113,7 +113,7 @@ Guide for contributing and extending GroveGrab.
 ### Installation
 
 ```bash
-pip install grovegrab
+pip install GroveGrabCLI
 ```
 
 ### First Time Setup

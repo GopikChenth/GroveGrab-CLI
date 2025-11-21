@@ -23,7 +23,7 @@ A powerful command-line tool for downloading Spotify tracks, playlists, albums, 
 ### Option 1: Install from PyPI (Recommended)
 
 ```bash
-pip install grovegrab
+pip install GroveGrabCLI
 ```
 
 ### Option 2: Install from Source

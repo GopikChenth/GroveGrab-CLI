@@ -48,8 +48,8 @@ sudo dnf install python3-pip
 python --version  # Should be 3.8+
 
 # Reinstall package
-pip uninstall grovegrab
-pip install grovegrab
+pip uninstall GroveGrabCLI
+pip install GroveGrabCLI
 
 # Or install in development mode
 cd GroveGrab-CLI
@@ -66,13 +66,13 @@ grovegrab version
 **Solution:**
 ```bash
 # Use --user flag
-pip install --user grovegrab
+pip install --user GroveGrabCLI
 
 # Or use virtual environment (recommended)
 python -m venv venv
 source venv/bin/activate  # macOS/Linux
 venv\Scripts\activate     # Windows
-pip install grovegrab
+pip install GroveGrabCLI
 ```
 
 ### Issue: Python version incompatibility
@@ -96,7 +96,7 @@ python --version
 # Create environment with specific version
 conda create -n grovegrab python=3.11
 conda activate grovegrab
-pip install grovegrab
+pip install GroveGrabCLI
 ```
 
 ---
@@ -454,12 +454,12 @@ export SSL_CERT_FILE=""
 ```bash
 # Use Homebrew Python (recommended)
 brew install python3
-pip3 install grovegrab
+pip3 install GroveGrabCLI
 
 # Or use virtual environment
 python3 -m venv ~/venv
 source ~/venv/bin/activate
-pip install grovegrab
+pip install GroveGrabCLI
 ```
 
 ### Linux Issues
@@ -498,7 +498,7 @@ sudo dnf install python3 python3-pip ffmpeg
 sudo pacman -S python python-pip ffmpeg
 
 # Install grovegrab
-pip3 install grovegrab
+pip3 install GroveGrabCLI
 ```
 
 #### Issue: Permission issues
@@ -514,7 +514,7 @@ chmod -R 755 ~/.config/grovegrab
 chmod -R 755 ~/Music/GroveGrab
 
 # Run without sudo (use --user flag)
-pip install --user grovegrab
+pip install --user GroveGrabCLI
 ```
 
 ---
@@ -757,7 +757,7 @@ Any other relevant information
 
 | Issue | Quick Fix |
 |-------|-----------|
-| Command not found | `pip install grovegrab` or add to PATH |
+| Command not found | `pip install GroveGrabCLI` or add to PATH |
 | No credentials | `grovegrab auth` |
 | Invalid URL | Use Spotify share link |
 | Download failed | `grovegrab retry <task_id>` |
@@ -776,13 +776,13 @@ Any other relevant information
 
 ```bash
 # Uninstall completely
-pip uninstall grovegrab spotdl
+pip uninstall GroveGrabCLI spotdl
 
 # Clear cache
 pip cache purge
 
 # Reinstall
-pip install grovegrab
+pip install GroveGrabCLI
 
 # Fresh setup
 grovegrab config --reset
@@ -803,7 +803,7 @@ rm -rf ~/Library/Application\ Support/grovegrab
 rm -rf ~/.config/grovegrab
 
 # Reinstall and setup
-pip install --upgrade grovegrab
+pip install --upgrade GroveGrabCLI
 grovegrab auth
 ```
 

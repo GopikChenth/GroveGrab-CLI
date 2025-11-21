@@ -28,8 +28,8 @@ ui = UIManager(console)
 def show_ascii_banner():
     """Display the GroveGrab ASCII art banner with colorful gradient from original design"""
     try:
-        # Get the directory where this file is located
-        current_dir = Path(__file__).parent.parent
+        # Get the directory where this file is located (inside grovegrab package)
+        current_dir = Path(__file__).parent
         ascii_file = current_dir / "ascii-art.txt"
         
         if ascii_file.exists():

@@ -54,3 +54,9 @@ Homepage = "https://github.com/GopikChenth"
 Repository = "https://github.com/GopikChenth/GroveGrab-CLI"
 Issues = "https://github.com/GopikChenth/GroveGrab-CLI/issues"
 Documentation = "https://github.com/GopikChenth/GroveGrab-CLI#-grovegrab-cli"
+
+[tool.setuptools]
+packages = ["grovegrab"]
+
+[tool.setuptools.package-data]
+grovegrab = ["ascii-art.txt"]

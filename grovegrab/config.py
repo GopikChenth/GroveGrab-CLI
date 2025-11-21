@@ -4,6 +4,8 @@ Configuration management for GroveGrab CLI
 from pathlib import Path
 import json
 import platformdirs
+import sys
+import os
 from typing import Optional
 
 
@@ -24,13 +26,23 @@ class ConfigManager:
                 return self._default_config()
         return self._default_config()
     
+    def _get_default_download_path(self) -> str:
+        """Get platform-specific default download path"""
+        # Check if running on Android (Termux)
+        if 'com.termux' in os.environ.get('PREFIX', ''):
+            # Termux/Android default path
+            return "/storage/emulated/0/Music/GroveGrab"
+        else:
+            # Windows/Mac/Linux default path
+            return str(Path.home() / "Music" / "GroveGrab")
+    
     def _default_config(self) -> dict:
         """Default configuration"""
         return {
             "client_id": "",
             "client_secret": "",
             "redirect_uri": "http://localhost:8888/callback",
-            "default_download_path": str(Path.home() / "Music" / "GroveGrab"),
+            "default_download_path": self._get_default_download_path(),
             "audio_format": "mp3",
             "audio_quality": "320k"
         }

@@ -2,6 +2,15 @@
 
 All notable changes to GroveGrab CLI will be documented in this file.
 
+## [1.0.3] - 2025-11-21
+
+### Added
+- **Android/Termux support** - Automatic platform detection for default download paths
+- Platform-specific defaults: `/storage/emulated/0/Music/GroveGrab` for Android, `~/Music/GroveGrab` for Windows/Mac/Linux
+
+### Changed
+- Improved default path logic to automatically detect Termux environment
+
 ## [1.0.2] - 2025-11-21
 
 ### Changed

@@ -155,6 +155,31 @@ class DownloadManager:
 
     # ---------------------------- Tasks ---------------------------- #
     def start_download(self, task_id: str, url: str, download_path: str | None = None):
+        # Check if credentials are configured
+        if not self.config.get('client_id') or not self.config.get('client_secret'):
+            with self.tasks_lock:
+                self.tasks[task_id] = {
+                    'id': task_id,
+                    'url': url,
+                    'type': 'download',
+                    'status': 'failed',
+                    'progress': 0,
+                    'total_tracks': 0,
+                    'completed_tracks': 0,
+                    'failed_tracks': 0,
+                    'current_track': '',
+                    'tracks': [],
+                    'download_path': download_path or self.config.get('default_download_path'),
+                    'logs': ['ERROR: Spotify credentials not configured. Please run "grovegrab auth" first.'],
+                    'failed_track_list': [],
+                    'created_at': datetime.now().isoformat(),
+                    'updated_at': datetime.now().isoformat(),
+                    'cancelled': False,
+                }
+                self._save_task(task_id)
+            logger.error(f"Task {task_id}: No Spotify credentials configured")
+            return
+        
         # Check internet connection first
         if not check_internet_connection():
             with self.tasks_lock:
@@ -269,10 +294,10 @@ class DownloadManager:
             try:
                 sys.stderr = open(os.devnull, 'w')
                 
-                # Initialize Spotify client without credentials (public API)
+                # Initialize Spotify client with credentials from config
                 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
-                    client_id=None,
-                    client_secret=None
+                    client_id=self.config.get('client_id'),
+                    client_secret=self.config.get('client_secret')
                 ))
                 
                 name = None

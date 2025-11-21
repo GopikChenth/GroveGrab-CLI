@@ -26,7 +26,7 @@ ui = UIManager(console)
 
 
 def show_ascii_banner():
-    """Display the GroveGrab ASCII art banner with colorful gradient from original design"""
+    """Display the GroveGrab ASCII art banner with colorful gradient"""
     try:
         # Get the directory where this file is located (inside grovegrab package)
         current_dir = Path(__file__).parent
@@ -34,36 +34,64 @@ def show_ascii_banner():
         
         if ascii_file.exists():
             ascii_art = ascii_file.read_text(encoding='utf-8')
-            lines = ascii_art.rstrip().split('\n')  # Only strip trailing whitespace, preserve leading spaces
+            lines = ascii_art.rstrip().split('\n')
             
-            # Beautiful gradient colors from the original HTML design
-            # Top to bottom: cyan -> teal -> blue/purple -> magenta/pink -> orange/yellow
+            # Gradient colors: cyan -> purple -> magenta
             colors = [
-                '#2CC2B4',  # Line 1: Cyan/Teal (top circle)
-                '#01B5C1',  # Line 2: Bright Cyan (upper portion)
-                '#0D9FC5',  # Line 3: Sky Blue (middle-upper)
-                '#538DCC',  # Line 4: Blue (middle with dots)
-                '#7874D5',  # Line 5: Blue-Purple (left side)
-                '#8151C9',  # Line 6: Purple (left comma)
-                '#9961D8',  # Line 7: Magenta (stars)
-                '#9853D2',  # Line 8: Pink-Magenta (stars with gradient)
-                '#AD59D9',  # Line 9: Pink (bottom stars)
-                '#BD5FBF',  # Line 10: Rose/Pink (final line)
+                '#00d4ff',  # Line 1: Bright cyan
+                '#00c8f0',  # Line 2: Cyan
+                '#00bce0',  # Line 3: Light blue
+                '#00b0d0',  # Line 4: Blue
+                '#00a4c0',  # Line 5: Blue-purple
+                '#7b68ee',  # Line 6: Purple
+                '#9370db',  # Line 7: Medium purple
+                '#ba55d3',  # Line 8: Orchid
+                '#da70d6',  # Line 9: Light orchid
+                '#ff00ff',  # Line 10: Magenta (tagline)
             ]
             
             # Print each line with its gradient color
             for i, line in enumerate(lines):
                 if i < len(colors):
-                    # Use hex color for exact match
                     console.print(f"[{colors[i]}]{line}[/{colors[i]}]")
                 else:
-                    # Fallback to last color if more lines than colors
                     console.print(f"[{colors[-1]}]{line}[/{colors[-1]}]")
             
             console.print()  # Add a blank line after the banner
     except Exception:
         # Silently fail if ASCII art can't be loaded
         pass
+
+
+def check_first_run():
+    """Check if this is first run and prompt for setup"""
+    if not config_manager.has_credentials():
+        show_ascii_banner()
+        console.print()
+        console.print("[yellow]👋 Welcome to GroveGrab![/yellow]")
+        console.print()
+        console.print("Before you can download music, you need to set up your Spotify API credentials.")
+        console.print("This is [green]FREE[/green] and takes just 2 minutes!")
+        console.print()
+        console.print("📋 Quick Setup:")
+        console.print("   1. Get credentials from [link]https://developer.spotify.com/dashboard[/link]")
+        console.print("   2. Run: [cyan]grovegrab auth[/cyan]")
+        console.print("   3. Start downloading!")
+        console.print()
+        
+        from rich.prompt import Confirm
+        if Confirm.ask("Would you like to set up now?", default=True):
+            ui.run_setup_wizard()
+            console.print()
+            console.print("[green]✓[/green] Setup complete! You can now download music.")
+            console.print()
+            return True
+        else:
+            console.print()
+            console.print("[yellow]Remember to run[/yellow] [cyan]grovegrab auth[/cyan] [yellow]before downloading![/yellow]")
+            console.print()
+            raise typer.Exit(0)
+    return False
 
 
 @app.command(name="dl")
@@ -86,22 +114,10 @@ def download(
         
         grovegrab dl "url" --output ~/Music --watch
     """
-    # Show ASCII banner
-    show_ascii_banner()
-    
-    # Check credentials
-    if not config_manager.has_credentials():
-        console.print("[red]❌ Error: No Spotify API credentials configured![/red]")
-        console.print()
-        console.print("You need to set up FREE Spotify API credentials first:")
-        console.print()
-        console.print("1. Run: [cyan]grovegrab auth[/cyan]")
-        console.print("2. Get credentials from: [link]https://developer.spotify.com/dashboard[/link]")
-        console.print("3. Create an app (free, takes 2 minutes)")
-        console.print("4. Copy Client ID and Client Secret")
-        console.print()
-        console.print(f"Config location: [dim]{config_manager.config_file}[/dim]")
-        raise typer.Exit(1)
+    # Check if first run and prompt for setup
+    if check_first_run():
+        # User just completed setup, continue with download
+        pass
     
     # Validate URL
     validation = download_manager.validate_url(url)

@@ -2,6 +2,19 @@
 
 All notable changes to GroveGrab CLI will be documented in this file.
 
+## [1.0.5] - 2025-11-21
+
+### Added
+- **New ASCII banner** with "GROVEGRAB" text and tagline "Your music — no limits, no loading"
+- **First-run experience** - interactive setup prompt on first use
+- Welcome message with quick setup guide
+- Option to run setup wizard immediately or later
+
+### Changed
+- Improved banner gradient colors (cyan to magenta)
+- Better onboarding flow for new users
+- More user-friendly error messages
+
 ## [1.0.4] - 2025-11-21
 
 ### Added

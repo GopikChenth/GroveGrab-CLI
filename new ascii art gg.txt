@@ -8,3 +8,6 @@
 /**********   **************                  Your music — no limits, no loading.
 **********.     .********.
  ********          ****
+
+GroveGrab CLI v1.0.5
+Built for music lovers

@@ -51,21 +51,27 @@ pip install -e .
 
 ## 🚀 Quick Start
 
-### 1. Setup Spotify API Credentials
+### ⚠️ IMPORTANT: First Time Setup Required
 
-Run the interactive setup wizard:
+**Before downloading anything, you MUST configure Spotify API credentials:**
 
 ```bash
 grovegrab auth
 ```
 
-Or get credentials manually:
-1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-2. Create an app
-3. Copy your **Client ID** and **Client Secret**
-4. Add redirect URI: `http://localhost:8888/callback`
+This will guide you through getting free API credentials from Spotify.
 
-### 2. Download Your First Track
+#### How to get Spotify API credentials (FREE):
+
+1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Log in with your Spotify account (free account works!)
+3. Click "Create an App"
+4. Give it any name (e.g., "My GroveGrab")
+5. Copy your **Client ID** and **Client Secret**
+6. Click "Edit Settings" and add redirect URI: `http://localhost:8888/callback`
+7. Save, then run `grovegrab auth` and paste your credentials
+
+### Download Your First Track
 
 ```bash
 grovegrab dl "https://open.spotify.com/track/..."
@@ -249,6 +255,17 @@ grovegrab-cli/
 
 ## 🐛 Troubleshooting
 
+### ❌ "No client_id. Pass it or set a SPOTIPY_CLIENT_ID environment variable"
+
+**This is the most common issue!** You need to configure Spotify API credentials first:
+
+```bash
+# Run this command to set up your credentials:
+grovegrab auth
+```
+
+Get free credentials from [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) (see Quick Start section above).
+
 ### FFmpeg not found
 ```bash
 # Install FFmpeg first
@@ -280,6 +297,12 @@ grovegrab auth
 # Or check your credentials at
 # https://developer.spotify.com/dashboard
 ```
+
+### Config location
+
+Your configuration is stored at:
+- **Windows**: `C:\Users\YourName\AppData\Local\grovegrab\grovegrab\config.json`
+- **Linux/Mac**: `~/.config/grovegrab/config.json`
 
 ## 🤝 Contributing
 

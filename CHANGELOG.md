@@ -1,0 +1,35 @@
+# Changelog
+
+All notable changes to GroveGrab CLI will be documented in this file.
+
+## [1.0.2] - 2025-11-21
+
+### Changed
+- **Improved error message** when Spotify credentials are not configured
+- Added clearer setup instructions in error output
+- Updated README with prominent first-time setup warning
+- Added troubleshooting section for common "No client_id" error
+- Better documentation about where config files are stored
+
+### Fixed
+- Users now get clear guidance when trying to download without credentials
+
+## [1.0.1] - 2025-11-21
+
+### Added
+- Initial PyPI release
+- Support for downloading tracks, playlists, albums, and artists
+- Interactive auth setup wizard
+- Real-time progress tracking
+- Task management (list, cancel, retry)
+- Batch downloads
+- Beautiful ASCII art banner
+- Comprehensive documentation
+
+## [1.0.0] - 2025-11-21
+
+### Added
+- Initial release
+- Core download functionality
+- Configuration management
+- CLI interface with Typer

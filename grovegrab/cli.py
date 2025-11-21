@@ -91,8 +91,16 @@ def download(
     
     # Check credentials
     if not config_manager.has_credentials():
-        console.print("[red]Error: No Spotify credentials configured![/red]")
-        console.print("Run [cyan]grovegrab auth[/cyan] first")
+        console.print("[red]❌ Error: No Spotify API credentials configured![/red]")
+        console.print()
+        console.print("You need to set up FREE Spotify API credentials first:")
+        console.print()
+        console.print("1. Run: [cyan]grovegrab auth[/cyan]")
+        console.print("2. Get credentials from: [link]https://developer.spotify.com/dashboard[/link]")
+        console.print("3. Create an app (free, takes 2 minutes)")
+        console.print("4. Copy Client ID and Client Secret")
+        console.print()
+        console.print(f"Config location: [dim]{config_manager.config_file}[/dim]")
         raise typer.Exit(1)
     
     # Validate URL

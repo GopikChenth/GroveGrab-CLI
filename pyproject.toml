@@ -50,7 +50,7 @@ dev = [
 grovegrab = "grovegrab.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/grovegrab-cli"
-Repository = "https://github.com/yourusername/grovegrab-cli"
-Issues = "https://github.com/yourusername/grovegrab-cli/issues"
-Documentation = "https://github.com/yourusername/grovegrab-cli#readme"
+Homepage = "https://github.com/GopikChenth"
+Repository = "https://github.com/GopikChenth/GroveGrab-CLI"
+Issues = "https://github.com/GopikChenth/GroveGrab-CLI/issues"
+Documentation = "https://github.com/GopikChenth/GroveGrab-CLI#-grovegrab-cli"

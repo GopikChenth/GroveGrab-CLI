@@ -34,6 +34,40 @@ cd grovegrab-cli
 pip install -e .
 ```
 
+### Option 3: Install on Android (Termux)
+
+1. **Install Termux** from [F-Droid](https://f-droid.org/) (NOT Play Store - outdated version)
+
+2. **Update packages and install dependencies:**
+   ```bash
+   pkg update && pkg upgrade
+   pkg install python ffmpeg
+   ```
+
+3. **Install GroveGrab:**
+   ```bash
+   pip install GroveGrabCLI
+   ```
+
+4. **Set up storage access (IMPORTANT for Android):**
+   ```bash
+   termux-setup-storage
+   ```
+   This allows access to your phone's internal storage and SD card.
+
+5. **Configure download directory:**
+   ```bash
+   grovegrab auth
+   ```
+   When prompted for download path, use:
+   - Internal Storage: `/storage/emulated/0/Music/GroveGrab`
+   - SD Card: `/storage/XXXX-XXXX/Music/GroveGrab` (replace XXXX with your SD card ID)
+   
+   To find your SD card path:
+   ```bash
+   ls /storage/
+   ```
+
 ### Prerequisites
 
 - **Python 3.8+**
@@ -47,6 +81,9 @@ pip install -e .
   
   # Linux (Ubuntu/Debian)
   sudo apt install ffmpeg
+  
+  # Android (Termux)
+  pkg install ffmpeg
   ```
 
 ## 🚀 Quick Start
@@ -211,7 +248,43 @@ export GROVEGRAB_OUTPUT="~/Music"
 |---------|---------|---------|
 | `audio_format` | `mp3` | `mp3`, `flac`, `ogg`, `opus`, `m4a` |
 | `audio_quality` | `320k` | `128k`, `192k`, `256k`, `320k` |
-| `default_download_path` | `~/Music/GroveGrab` | Any valid path |
+| `default_download_path` | Platform-specific (see below) | Any valid path |
+
+**Default Download Paths:**
+- **Windows/Mac/Linux**: `~/Music/GroveGrab`
+- **Android (Termux)**: `/storage/emulated/0/Music/GroveGrab`
+
+### Changing Download Directory
+
+#### Option 1: During Setup
+```bash
+grovegrab auth
+# Enter your desired path when prompted
+```
+
+#### Option 2: Edit Config File
+```bash
+# Windows
+notepad %APPDATA%\grovegrab\config.json
+
+# Mac/Linux
+nano ~/.config/grovegrab/config.json
+
+# Android (Termux)
+nano ~/.config/grovegrab/config.json
+```
+
+Change the `default_download_path` value:
+```json
+{
+  "default_download_path": "/storage/emulated/0/Music/MyFolder"
+}
+```
+
+#### Option 3: Per Download
+```bash
+grovegrab dl "url" --output /path/to/folder
+```
 
 ## 🛠️ Development
 

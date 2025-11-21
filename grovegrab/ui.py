@@ -19,6 +19,9 @@ class UIManager:
     
     def run_setup_wizard(self):
         """Interactive setup wizard"""
+        from .config import ConfigManager
+        import os
+        
         self.console.print(Panel.fit(
             "[bold cyan]🎵 GroveGrab Setup Wizard[/bold cyan]\n\n"
             "Get your Spotify API credentials from:\n"
@@ -29,9 +32,21 @@ class UIManager:
         client_id = Prompt.ask("\n[cyan]Spotify Client ID[/cyan]")
         client_secret = Prompt.ask("[cyan]Spotify Client Secret[/cyan]", password=True)
         
+        # Get platform-specific default path
+        config = ConfigManager()
+        default_path = config._get_default_download_path()
+        
+        # Show platform-specific help
+        if 'com.termux' in os.environ.get('PREFIX', ''):
+            self.console.print("\n[yellow]Android/Termux Tips:[/yellow]")
+            self.console.print("- Internal Storage: /storage/emulated/0/Music/GroveGrab")
+            self.console.print("- SD Card: /storage/XXXX-XXXX/Music/GroveGrab")
+            self.console.print("- Run 'termux-setup-storage' first for storage access")
+            self.console.print("- Use 'ls /storage/' to find your SD card path\n")
+        
         download_path = Prompt.ask(
             "[cyan]Default download path[/cyan]",
-            default=str(Path.home() / "Music" / "GroveGrab")
+            default=default_path
         )
         
         format_choice = Prompt.ask(
@@ -47,8 +62,6 @@ class UIManager:
         )
         
         # Save config
-        from .config import ConfigManager
-        config = ConfigManager()
         config.update(
             client_id=client_id,
             client_secret=client_secret,

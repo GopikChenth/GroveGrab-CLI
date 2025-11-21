@@ -2,6 +2,18 @@
 
 All notable changes to GroveGrab CLI will be documented in this file.
 
+## [1.0.4] - 2025-11-21
+
+### Added
+- Comprehensive Android/Termux installation guide in README
+- Platform-specific tips during auth setup wizard for Android users
+- Detailed instructions for changing download directory
+- SD card path detection guide for Android
+
+### Changed
+- Improved setup wizard with Android-specific path suggestions
+- Enhanced documentation with three methods to change download directory
+
 ## [1.0.3] - 2025-11-21
 
 ### Added

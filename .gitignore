@@ -54,3 +54,6 @@ logs/
 # Cache files
 .cache
 .spotdl-cache
+
+# Documentation (internal planning)
+APP_CONVERSION_GUIDE.md

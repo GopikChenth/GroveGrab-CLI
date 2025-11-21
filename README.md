@@ -100,13 +100,29 @@ This will guide you through getting free API credentials from Spotify.
 
 #### How to get Spotify API credentials (FREE):
 
-1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-2. Log in with your Spotify account (free account works!)
-3. Click "Create an App"
-4. Give it any name (e.g., "My GroveGrab")
-5. Copy your **Client ID** and **Client Secret**
-6. Click "Edit Settings" and add redirect URI: `http://localhost:8888/callback`
-7. Save, then run `grovegrab auth` and paste your credentials
+1. **Go to** [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. **Log in** with your Spotify account (free account works!)
+3. **Click "Create an App"**
+4. **Enter App Details:**
+   - App name: `My GroveGrab` (or any name you like)
+   - App description: `Personal music downloader`
+   - Check the agreement boxes
+   - Click **"Create"**
+5. **Copy your credentials:**
+   - You'll see your **Client ID** on the app page - copy it
+   - Click **"Show Client Secret"** - copy it too
+   - ⚠️ Keep these private!
+6. **Configure Redirect URI (IMPORTANT):**
+   - Click **"Edit Settings"** button
+   - Scroll to **"Redirect URIs"**
+   - Enter: `http://localhost:8888/callback`
+   - Click **"Add"**
+   - Scroll down and click **"Save"**
+7. **Configure GroveGrab:**
+   ```bash
+   grovegrab auth
+   ```
+   Paste your Client ID and Client Secret when prompted
 
 ### Download Your First Track
 

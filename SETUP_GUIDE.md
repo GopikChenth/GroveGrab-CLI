@@ -19,14 +19,22 @@ pip install GroveGrabCLI
 1. Go to https://developer.spotify.com/dashboard
 2. Log in with your Spotify account (free account works!)
 3. Click **"Create an App"**
-4. Enter any name (e.g., "My GroveGrab")
-5. Enter any description
-6. Click **"Create"**
-7. You'll see your **Client ID** - copy it
-8. Click **"Show Client Secret"** - copy it too
-9. Click **"Edit Settings"**
-10. Add Redirect URI: `http://localhost:8888/callback`
-11. Click **"Save"**
+4. **Fill in the form:**
+   - App name: `My GroveGrab` (or anything you like)
+   - App description: `Personal music downloader`
+   - Check the agreement boxes
+5. Click **"Create"**
+6. **Copy your credentials:**
+   - Your **Client ID** is visible on the app page - copy it
+   - Click **"Show Client Secret"** - copy this too
+   - ⚠️ **IMPORTANT:** Keep these credentials private and secure!
+7. **Set up Redirect URI (REQUIRED):**
+   - Click the **"Edit Settings"** button
+   - Scroll down to **"Redirect URIs"** section
+   - In the text box, enter exactly: `http://localhost:8888/callback`
+   - Click the **"Add"** button next to it
+   - Scroll to the bottom and click **"Save"**
+   - ✅ You should see your redirect URI in the list now
 
 ### Step 3: Configure GroveGrab
 ```bash

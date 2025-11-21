@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "GroveGrabCLI"
+version = "1.0.0"
+description = "CLI tool for downloading Spotify tracks, playlists, and albums with organized folders and progress tracking"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["spotify", "download", "music", "cli", "spotdl", "playlist", "album"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Environment :: Console",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "typer[all]>=0.9.0",
+    "rich>=13.0.0",
+    "spotdl>=3.9.0,<4.0.0",
+    "platformdirs>=3.0.0",
+    "spotipy>=2.23.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+grovegrab = "grovegrab.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/grovegrab-cli"
+Repository = "https://github.com/yourusername/grovegrab-cli"
+Issues = "https://github.com/yourusername/grovegrab-cli/issues"
+Documentation = "https://github.com/yourusername/grovegrab-cli#readme"

@@ -2,6 +2,20 @@
 
 All notable changes to GroveGrab CLI will be documented in this file.
 
+## [1.0.6] - 2025-11-29
+
+### Fixed
+- **CRITICAL: Fixed SpotDL command structure** - Removed incorrect "download" subcommand that was causing "unrecognized arguments" errors
+- **Fixed path template syntax** - Changed `{output-ext}` to `{ext}` for compatibility with SpotDL 3.9.6
+- **Fixed download verification** - Added proper null checks and file verification after download completes
+- Downloads now work correctly with SpotDL 3.9.6+ syntax
+
+### Changed
+- Simplified SpotDL command building to use `spotdl [url] [options]` format
+- Uses YouTube Music by default (more reliable than direct YouTube)
+- Better error handling for missing download paths
+- Added success verification with actual file count
+
 ## [1.0.5] - 2025-11-21
 
 ### Added

@@ -343,18 +343,24 @@ class DownloadManager:
     def _build_spotdl_command(
         self, url: str, download_path: str | None = None, preload_only: bool = False
     ) -> List[str]:
-        cmd = ['spotdl']
-        cmd.append(url)
-
-        # SpotDL 3.9.6 doesn't support --client-id/--client-secret
-        # It uses YouTube Music by default which doesn't need Spotify credentials
-
+        """
+        Build SpotDL command with modern 3.9.6+ syntax.
+        SpotDL 3.9.6 format: spotdl [url] [options]
+        No subcommands - just URL followed by flags.
+        Uses YouTube Music by default (more reliable than direct YouTube).
+        """
+        cmd = ['spotdl', url]
+        
         if not preload_only:
             if download_path:
                 cmd.extend(['--output', download_path])
 
             audio_format = self.config.get('audio_format', 'mp3')
             cmd.extend(['--output-format', audio_format])
+            
+            # Add path template to organize downloads by artist/album
+            # Note: use {ext} not {output-ext} in SpotDL 3.9.6
+            cmd.extend(['--path-template', '{artists}/{album}/{title}.{ext}'])
 
         return cmd
 
@@ -452,6 +458,30 @@ class DownloadManager:
                 return {'success': False, 'error': 'Network connectivity issues - DNS resolution failed'}
             
             if process.returncode == 0:
+                # Verify actual music files were created (not just tracking files)
+                download_location = self.config.get('download_path')
+                music_files = []
+                if download_location and Path(download_location).exists():
+                    # Look for actual audio files, not just .spotdlTrackingFile
+                    for ext in ['*.mp3', '*.m4a', '*.opus', '*.ogg', '*.flac']:
+                        music_files.extend(Path(download_location).rglob(ext))
+                
+                    if not music_files:
+                        # Download completed but no music files found
+                        self._log(task_id, 'WARNING: SpotDL process completed but no music files were created.')
+                        self._log(task_id, 'This may indicate a YouTube source issue or network problem.')
+                        with self.tasks_lock:
+                            task = self.tasks.get(task_id)
+                            if task:
+                                for track in task.get('tracks', []):
+                                    if track['status'] != 'failed':
+                                        track['status'] = 'failed'
+                                task['completed_tracks'] = 0
+                        return {'success': False, 'error': 'No music files created - check SpotDL output above'}
+                    else:
+                        # Mark all tracks as completed and log success
+                        self._log(task_id, f'SUCCESS: Downloaded {len(music_files)} file(s) to {download_location}')
+                
                 # Mark all tracks as completed (SpotDL doesn't output completion messages)
                 with self.tasks_lock:
                     task = self.tasks.get(task_id)

@@ -1,438 +1,323 @@
 # 🎵 GroveGrab CLI
 
-A powerful command-line tool for downloading Spotify tracks, playlists, albums, and artists using your own Spotify API credentials.
+A lightweight, fast command-line tool to download Spotify music (tracks, playlists, albums, artists) with your own free Spotify API credentials.
 
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI](https://img.shields.io/badge/pypi-v1.0.6-blue.svg)](https://pypi.org/project/GroveGrabCLI/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## ✨ Features
+---
 
-- 🎵 **Download Everything** - Tracks, playlists, albums, and artists
-- 🔐 **Your API Credentials** - Use your own Spotify API to avoid rate limits
-- 🎨 **Beautiful CLI** - Rich terminal UI with progress bars and colors
-- 📋 **Individual Song Progress** - See each song's download progress in playlists/albums
-- 🎧 **High Quality** - Download in MP3 (up to 320kbps), FLAC, OGG, OPUS, or M4A
-- ⚡ **Fast & Efficient** - Concurrent downloads with real-time progress
-- 📊 **Task Management** - List, cancel, retry, and view logs for all downloads
-- 🔄 **Batch Downloads** - Download multiple URLs from a file
-- 💾 **Smart Caching** - Skip already downloaded tracks
-- 💻 **Windows Compatible** - Full support for Windows console (no Unicode issues)
+## 📖 What is GroveGrab CLI?
+
+GroveGrab CLI downloads Spotify music using **SpotDL** (fetches audio from YouTube) with your **free Spotify API credentials** for metadata. Perfect for offline listening, backups, or building your personal music library.
+
+**Key Features:**
+- ✅ Download tracks, playlists, albums, and entire artist discographies
+- ✅ High-quality audio (MP3 320kbps, FLAC, OGG, OPUS, M4A)
+- ✅ Beautiful real-time progress tracking with individual song status
+- ✅ Cross-platform: Windows, macOS, Linux, Android (Termux)
+- ✅ Batch downloads from file lists
+- ✅ Task management: pause, resume, retry failed downloads
+
+---
 
 ## 📦 Installation
 
-### Option 1: Install from PyPI (Recommended)
+### Prerequisites
+- **Python 3.8+** ([Download](https://www.python.org/downloads/))
+- **FFmpeg** (required for audio conversion)
+
+### Install FFmpeg First
+
+<details>
+<summary><b>Windows</b></summary>
+
+```bash
+# Using Chocolatey
+choco install ffmpeg
+
+# Or download from https://ffmpeg.org/download.html
+```
+</details>
+
+<details>
+<summary><b>macOS</b></summary>
+
+```bash
+brew install ffmpeg
+```
+</details>
+
+<details>
+<summary><b>Linux (Ubuntu/Debian)</b></summary>
+
+```bash
+sudo apt update && sudo apt install ffmpeg
+```
+</details>
+
+<details>
+<summary><b>Android (Termux)</b></summary>
+
+```bash
+pkg install ffmpeg
+```
+</details>
+
+### Install GroveGrab
 
 ```bash
 pip install GroveGrabCLI
 ```
 
-### Option 2: Install from Source
+### Platform-Specific Setup
 
-```bash
-git clone https://github.com/yourusername/grovegrab-cli.git
-cd grovegrab-cli
-pip install -e .
-```
+<details>
+<summary><b>Android (Termux) - Extra Steps</b></summary>
 
-### Option 3: Install on Android (Termux)
+1. **Install Termux from [F-Droid](https://f-droid.org/)** (NOT Play Store)
 
-1. **Install Termux** from [F-Droid](https://f-droid.org/) (NOT Play Store - outdated version)
-
-2. **Update packages and install dependencies:**
+2. **Install dependencies:**
    ```bash
    pkg update && pkg upgrade
    pkg install python ffmpeg
    ```
 
-3. **Install GroveGrab:**
+3. **Enable storage access:**
+   ```bash
+   termux-setup-storage
+   ```
+
+4. **Install GroveGrab:**
    ```bash
    pip install GroveGrabCLI
    ```
 
-4. **Set up storage access (IMPORTANT for Android):**
-   ```bash
-   termux-setup-storage
-   ```
-   This allows access to your phone's internal storage and SD card.
+5. **Configure paths** (when running `grovegrab auth`):
+   - Internal: `/storage/emulated/0/Music/GroveGrab`
+   - SD Card: `/storage/XXXX-XXXX/Music/GroveGrab` (check `ls /storage/`)
+</details>
 
-5. **Configure download directory:**
-   ```bash
-   grovegrab auth
-   ```
-   When prompted for download path, use:
-   - Internal Storage: `/storage/emulated/0/Music/GroveGrab`
-   - SD Card: `/storage/XXXX-XXXX/Music/GroveGrab` (replace XXXX with your SD card ID)
-   
-   To find your SD card path:
-   ```bash
-   ls /storage/
-   ```
+---
 
-### Prerequisites
+## 🚀 Quick Start (2 Minutes Setup)
 
-- **Python 3.8+**
-- **FFmpeg** - Required by SpotDL for audio conversion
-  ```bash
-  # Windows (Chocolatey)
-  choco install ffmpeg
-  
-  # macOS
-  brew install ffmpeg
-  
-  # Linux (Ubuntu/Debian)
-  sudo apt install ffmpeg
-  
-  # Android (Termux)
-  pkg install ffmpeg
-  ```
+### Step 1: Get FREE Spotify API Credentials
 
-## 🚀 Quick Start
+1. Visit [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Log in (free Spotify account works!)
+3. Click **"Create an App"** → name it anything → **Create**
+4. Copy your **Client ID** and **Client Secret** (click "Show")
+5. Click **"Edit Settings"** → Add these Redirect URIs:
+   - `http://localhost:8888/callback`
+   - `http://127.0.0.1:8888/callback`
+6. Click **Save**
 
-### ⚠️ IMPORTANT: First Time Setup Required
-
-**Before downloading anything, you MUST configure Spotify API credentials:**
+### Step 2: Configure GroveGrab
 
 ```bash
 grovegrab auth
 ```
+Paste your credentials when prompted. Done! 🎉
 
-This will guide you through getting free API credentials from Spotify.
-
-#### How to get Spotify API credentials (FREE):
-
-1. **Go to** [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-2. **Log in** with your Spotify account (free account works!)
-3. **Click "Create an App"**
-4. **Enter App Details:**
-   - App name: `My GroveGrab` (or any name you like)
-   - App description: `Personal music downloader`
-   - Check the agreement boxes
-   - Click **"Create"**
-5. **Copy your credentials:**
-   - You'll see your **Client ID** on the app page - copy it
-   - Click **"Show Client Secret"** - copy it too
-   - ⚠️ Keep these private!
-6. **Configure Redirect URIs (IMPORTANT):**
-   - Click **"Edit Settings"** button
-   - Scroll to **"Redirect URIs"**
-   - Enter: `http://localhost:8888/callback`
-   - Click **"Add"**
-   - **Also add:** `http://127.0.0.1:8888/callback`
-   - Click **"Add"** again
-   - Scroll down and click **"Save"**
-7. **Configure GroveGrab:**
-   ```bash
-   grovegrab auth
-   ```
-   Paste your Client ID and Client Secret when prompted
-
-### Download Your First Track
+### Step 3: Download Music
 
 ```bash
-grovegrab dl "https://open.spotify.com/track/..."
+# Download a track
+grovegrab dl "https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp"
+
+# Download a playlist
+grovegrab dl "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"
+
+# Download with progress display
+grovegrab dl "spotify_url" --watch
 ```
 
-That's it! 🎉
+---
 
-## 📖 Usage
+## 💻 Usage
 
-### Basic Commands
+### Basic Downloads
 
 ```bash
-# Download a track/playlist/album
+# Download track/playlist/album/artist
 grovegrab dl "spotify_url"
 
-# Download with custom settings
-grovegrab dl "url" --format flac --quality 320k --output ~/Music
-
-# Watch progress in real-time
+# Watch real-time progress
 grovegrab dl "url" --watch
 
-# Run in background
-grovegrab dl "url" --detach
-```
+# Custom output folder
+grovegrab dl "url" --output ~/Music/MyFolder
 
-### Configuration
-
-```bash
-# Run setup wizard
-grovegrab auth
-
-# Show current configuration
-grovegrab config --show
-
-# Reset configuration
-grovegrab config --reset
-```
-
-### Task Management
-
-```bash
-# List active downloads
-grovegrab list
-
-# List all downloads (including completed)
-grovegrab list --all
-
-# Cancel a download
-grovegrab cancel <task-id>
-
-# Retry a failed download
-grovegrab retry <task-id>
-
-# View logs
-grovegrab logs <task-id>
-
-# Follow logs in real-time
-grovegrab logs <task-id> --follow
+# High-quality FLAC
+grovegrab dl "url" --format flac
 ```
 
 ### Batch Downloads
 
-```bash
-# Download from a file containing URLs
-grovegrab batch urls.txt
-
-# With custom worker count
-grovegrab batch urls.txt --workers 5
-```
-
-**Example `urls.txt`:**
+Create a file `urls.txt`:
 ```
 https://open.spotify.com/track/...
 https://open.spotify.com/playlist/...
 https://open.spotify.com/album/...
 ```
 
-### Other Commands
+Then run:
+```bash
+grovegrab batch urls.txt
+```
+
+### Task Management
 
 ```bash
-# Show version
-grovegrab version
-
-# Get help
-grovegrab --help
-grovegrab dl --help
+grovegrab list              # Show active downloads
+grovegrab list --all        # Show all downloads
+grovegrab cancel <task-id>  # Cancel download
+grovegrab retry <task-id>   # Retry failed
+grovegrab logs <task-id>    # View logs
 ```
 
-## 🎨 Screenshots
+### Configuration
 
-### Single Track Download
-```
-Starting download: track
-Downloading: Artist - Song Name ████████████░░░░░░░░ 60%
+```bash
+grovegrab auth              # Setup/reconfigure
+grovegrab config --show     # View settings
+grovegrab version           # Show version
 ```
 
-### Playlist Download (Individual Songs)
+---
+
+## 🎨 Example Output
+
+**Playlist Download:**
 ```
 Starting download: playlist
-Overall: 15/31 tracks (2 failed) ████████████░░░░░░░░ 48%
-Anirudh Ravichander - Pathala Pathala ───────────── 100%
-The Weeknd - Blinding Lights ────────────────────── 100%
-Drake - God's Plan ───────────────────────────────── 75%
-Ed Sheeran - Shape of You ────────────────────────── 30%
+Overall: 15/31 tracks ████████████░░░░░░░░ 48%
+Anirudh Ravichander - Pathala Pathala ─── 100%
+The Weeknd - Blinding Lights ──────────── 100%
+Drake - God's Plan ─────────────────────── 75%
 ```
 
-### Task List
+**Task List:**
 ```
-┌─ Download Tasks ────────────────────────────────────────────┐
-│ ID       Status         Progress  Current Track    Stats    │
-├──────────────────────────────────────────────────────────────┤
-│ a1b2c3d4 > running     67%       Drake - Hotline  3/5       │
-│ e5f6g7h8 OK completed  100%      -                10/10     │
-│ i9j0k1l2 ERR failed    45%       -                5/12 (2)  │
-└──────────────────────────────────────────────────────────────┘
+┌─ Download Tasks ─────────────────────────────────┐
+│ ID       Status      Progress  Stats             │
+├──────────────────────────────────────────────────┤
+│ a1b2c3d4 running     67%       3/5               │
+│ e5f6g7h8 completed   100%      10/10             │
+└──────────────────────────────────────────────────┘
 ```
+
+---
 
 ## ⚙️ Configuration
 
-Configuration is stored at:
-- **Linux/Mac**: `~/.config/grovegrab/config.json`
+### Config File Locations
 - **Windows**: `%APPDATA%\grovegrab\config.json`
+- **Linux/Mac**: `~/.config/grovegrab/config.json`
+- **Android**: `~/.config/grovegrab/config.json`
 
-### Environment Variables
-
-You can also set credentials via environment variables:
-
-```bash
-export SPOTIFY_CLIENT_ID="your_client_id"
-export SPOTIFY_CLIENT_SECRET="your_client_secret"
-export GROVEGRAB_OUTPUT="~/Music"
-```
-
-### Configuration Options
+### Available Options
 
 | Setting | Default | Options |
 |---------|---------|---------|
 | `audio_format` | `mp3` | `mp3`, `flac`, `ogg`, `opus`, `m4a` |
 | `audio_quality` | `320k` | `128k`, `192k`, `256k`, `320k` |
-| `default_download_path` | Platform-specific (see below) | Any valid path |
+| `download_path` | `~/Music/GroveGrab` | Any valid path |
 
-**Default Download Paths:**
-- **Windows/Mac/Linux**: `~/Music/GroveGrab`
-- **Android (Termux)**: `/storage/emulated/0/Music/GroveGrab`
+### Change Settings
 
-### Changing Download Directory
-
-#### Option 1: During Setup
+**Via setup wizard:**
 ```bash
 grovegrab auth
-# Enter your desired path when prompted
 ```
 
-#### Option 2: Edit Config File
+**Via environment variables:**
 ```bash
-# Windows
-notepad %APPDATA%\grovegrab\config.json
-
-# Mac/Linux
-nano ~/.config/grovegrab/config.json
-
-# Android (Termux)
-nano ~/.config/grovegrab/config.json
+export SPOTIFY_CLIENT_ID="your_id"
+export SPOTIFY_CLIENT_SECRET="your_secret"
 ```
 
-Change the `default_download_path` value:
-```json
-{
-  "default_download_path": "/storage/emulated/0/Music/MyFolder"
-}
-```
-
-#### Option 3: Per Download
+**Per download:**
 ```bash
-grovegrab dl "url" --output /path/to/folder
+grovegrab dl "url" --format flac --output ~/Music/Custom
 ```
 
-## 🛠️ Development
+---
 
-### Setup Development Environment
+## 🎯 Features
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/grovegrab-cli.git
-cd grovegrab-cli
+| Feature | Description |
+|---------|-------------|
+| **Multi-format Support** | MP3 (320k), FLAC, OGG, OPUS, M4A |
+| **Real-time Progress** | Individual track progress in playlists |
+| **Task Management** | Cancel, retry, view logs for all downloads |
+| **Batch Downloads** | Download multiple URLs from file |
+| **Smart Organization** | Auto-organized by Artist/Album/Track |
+| **Cross-Platform** | Windows, macOS, Linux, Android (Termux) |
+| **Free & Open Source** | MIT License, no subscriptions |
 
-# Install in editable mode with dev dependencies
-pip install -e ".[dev]"
-
-# Run tests
-pytest
-
-# Format code
-black grovegrab/
-
-# Lint code
-flake8 grovegrab/
-```
-
-### Project Structure
-
-```
-grovegrab-cli/
-├── grovegrab/
-│   ├── __init__.py      # Package info
-│   ├── __main__.py      # Entry point
-│   ├── cli.py           # CLI commands
-│   ├── core.py          # Download manager
-│   ├── config.py        # Configuration
-│   └── ui.py            # Terminal UI
-├── tests/               # Unit tests
-├── docs/                # Documentation
-├── requirements.txt     # Dependencies
-├── setup.py             # Setup script
-└── pyproject.toml       # Project metadata
-```
+---
 
 ## 🐛 Troubleshooting
 
-### ❌ "No client_id. Pass it or set a SPOTIPY_CLIENT_ID environment variable"
+| Issue | Solution |
+|-------|----------|
+| **"No client_id" error** | Run `grovegrab auth` to configure Spotify credentials ([Get them here](https://developer.spotify.com/dashboard)) |
+| **FFmpeg not found** | Install FFmpeg: `choco install ffmpeg` (Win) / `brew install ffmpeg` (Mac) / `apt install ffmpeg` (Linux) |
+| **Download fails** | Check logs: `grovegrab logs <task-id>`, then retry: `grovegrab retry <task-id>` |
+| **Invalid credentials** | Reconfigure: `grovegrab auth`, verify at [Spotify Dashboard](https://developer.spotify.com/dashboard) |
+| **Android storage issues** | Run `termux-setup-storage` and use `/storage/emulated/0/Music/GroveGrab` |
 
-**This is the most common issue!** You need to configure Spotify API credentials first:
+**Need more help?** [Open an issue](https://github.com/GopikChenth/GroveGrab-CLI/issues)
 
-```bash
-# Run this command to set up your credentials:
-grovegrab auth
-```
+---
 
-Get free credentials from [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) (see Quick Start section above).
+## 📄 License & Legal
 
-### FFmpeg not found
-```bash
-# Install FFmpeg first
-# Windows: choco install ffmpeg
-# Mac: brew install ffmpeg
-# Linux: sudo apt install ffmpeg
-```
+**License:** MIT License - Free for personal use  
+**Legal Notice:** This tool is for **personal use only**. Respect copyright laws and support artists through legitimate streaming services.
 
-### No internet connection
-```bash
-# Check your network connection
-ping google.com
-```
+Uses [SpotDL](https://github.com/spotDL/spotify-downloader) (fetches audio from YouTube) with Spotify API for metadata.
 
-### Download fails
-```bash
-# View detailed logs
-grovegrab logs <task-id>
+---
 
-# Retry the download
-grovegrab retry <task-id>
-```
+## 🙏 Credits
 
-### Invalid credentials
-```bash
-# Re-run setup
-grovegrab auth
+Built with [SpotDL](https://github.com/spotDL/spotify-downloader) • [Typer](https://typer.tiangolo.com/) • [Rich](https://rich.readthedocs.io/)
 
-# Or check your credentials at
-# https://developer.spotify.com/dashboard
-```
-
-### Config location
-
-Your configuration is stored at:
-- **Windows**: `C:\Users\YourName\AppData\Local\grovegrab\grovegrab\config.json`
-- **Linux/Mac**: `~/.config/grovegrab/config.json`
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## ⚠️ Legal Notice
-
-This tool is for personal use only. Please comply with:
-- Spotify's Terms of Service
-- YouTube's Terms of Service (SpotDL uses YouTube as audio source)
-- Copyright laws in your jurisdiction
-
-**Always support artists by using legitimate streaming services!**
-
-## 🙏 Acknowledgments
-
-- **[SpotDL](https://github.com/spotDL/spotify-downloader)** - The amazing tool that powers the downloads
-- **[Typer](https://typer.tiangolo.com/)** - Beautiful CLI framework
-- **[Rich](https://rich.readthedocs.io/)** - Gorgeous terminal formatting
-- **GroveGrab Web** - The original web version this CLI is based on
+---
 
 ## 📞 Support
 
-- 🐛 [Report Bug](https://github.com/yourusername/grovegrab-cli/issues)
-- 💡 [Request Feature](https://github.com/yourusername/grovegrab-cli/issues)
-- 📖 [Documentation](https://github.com/yourusername/grovegrab-cli/wiki)
+- 🐛 [Report Issues](https://github.com/GopikChenth/GroveGrab-CLI/issues)
+- ⭐ [Star on GitHub](https://github.com/GopikChenth/GroveGrab-CLI)
+- 📦 [View on PyPI](https://pypi.org/project/GroveGrabCLI/)
+
+---
+
+## 📝 Changelog
+
+### v1.0.6 (2025-11-29) - CRITICAL FIX
+- ✅ Fixed SpotDL command structure for 3.9.6+ compatibility
+- ✅ Fixed path template syntax (`{ext}` instead of `{output-ext}`)
+- ✅ Downloads now work correctly
+
+### v1.0.5 (2025-11-21)
+- New ASCII banner with gradient colors
+- First-run setup experience
+
+### v1.0.4 (2025-11-21)
+- Android/Termux installation guide
+- Platform-specific tips
+
+### v1.0.3 (2025-11-21)
+- Android/Termux support with auto path detection
+
+### v1.0.2 (2025-11-21)
+- Improved error messages for missing credentials
 
 ---
 
 **Made with ❤️ for music lovers**
-
-*If you enjoy this project, consider ⭐ starring the repository!*
